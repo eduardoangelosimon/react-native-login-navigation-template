@@ -1,35 +1,15 @@
 import React, {type PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  Text,
-  View,
-} from 'react-native';
-
-import Home from './src/screens/Home';
-import Configuration from './src/screens/Configuration';
-import Login from './src/screens/Login';
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
-const Drawer = createDrawerNavigator();
-
-function MyDrawer() {
-  return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="Configuration" component={Configuration} />
-    </Drawer.Navigator>
-  );
-}
+import { store } from './src/store/store';
+import { Provider } from 'react-redux';
+import { RootNavigation } from './src/routes';
 
 const App = () => {
 
   return (
     <>
-      <NavigationContainer>
-        <Login/>
-      </NavigationContainer>
+      <Provider store={store}>
+        <RootNavigation />
+      </Provider>
     </>
   );
 };

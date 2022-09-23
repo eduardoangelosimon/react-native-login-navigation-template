@@ -1,4 +1,3 @@
-import React from "react"
 import { StyleSheet, Text, View } from "react-native";
 import { COLORS } from '../../themes/colors'
 
@@ -29,6 +28,14 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 10,
         marginBottom: 15
+    },
+    disabledLoginButton:{
+        backgroundColor: COLORS.purple,
+        padding: 20,
+        width: '100%',
+        alignItems:'center',
+        borderRadius: 10,
+        opacity: 0.5
     },
     loginButton: {
         backgroundColor: COLORS.purple,
