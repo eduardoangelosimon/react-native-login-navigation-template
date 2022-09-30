@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
-import { Text, SafeAreaView, TouchableOpacity, View, Image, Switch } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { sessionOut } from '../../store/session/sessionSlice';
+import { Text, SafeAreaView, View, Switch } from 'react-native';
 import styles from './styles';
 
-const Configuration: React.FC = ({navigation}: any) => {
-  const dispatch = useDispatch();
-
-  const logout = () => {
-      dispatch(sessionOut);
-      navigation.navigate("Login");
-  }
+const Configuration: React.FC = () => {
 
   const [isEnabled, setIsEnabled] = useState(false)
 
@@ -21,6 +13,7 @@ const Configuration: React.FC = ({navigation}: any) => {
     const newStatus ={
       isEnabled
     }
+    
     console.log(newStatus)
   }
 
@@ -42,16 +35,6 @@ const Configuration: React.FC = ({navigation}: any) => {
                   value={isEnabled}
                 />
               </View>
-              <TouchableOpacity 
-                style={styles.button}
-                onPress={logout}
-              >
-                <Text style={styles.buttonText}>Logout</Text>
-                <Image
-                  style={styles.buttonIcon}
-                  source={require('../../assets/right-arrow.png')}
-                />
-              </TouchableOpacity>
             </View>
         </SafeAreaView>
     </>

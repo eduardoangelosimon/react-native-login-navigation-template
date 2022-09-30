@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, Text, SafeAreaView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { sessionIn } from '../../store/session/sessionSlice';
 import styles from './styles'
+
+import { authSuccess } from '../../redux/session';
 
 import TouchID from 'react-native-touch-id';
 
 const Login: React.FC = ({navigation}: any) => {
-
-    const [isSupported, setIsSupported] = useState(false)
 
     const [user, setUser] = useState('')
     const [password, setPassword] = useState('')
@@ -18,8 +17,7 @@ const Login: React.FC = ({navigation}: any) => {
     const dispatch = useDispatch();
 
     const login = () => {
-        navigation.navigate("Configuration")
-        dispatch(sessionIn);
+        dispatch(authSuccess())
     }
 
     const checkDisableLoginButton = () => {
@@ -30,24 +28,23 @@ const Login: React.FC = ({navigation}: any) => {
         setDisabled(false)
     }
 
-    const handleBiometricAuthentication = () => {
-        if (biometricEnabled && !preferences?.userEnabled){
+    // const handleBiometricAuthentication = () => {
+    //     if (biometricEnabled && !preferences?.userEnabled){
             
-        }
-    }
+    //     }
+    // }
 
     useEffect(() => {
         TouchID.authenticate('Validate your credentials')
         .then((success: any) => {
-            navigation.navigate("Configuration")
-            dispatch(sessionIn);
+            dispatch(authSuccess())
         })
         .catch((error: any) => {
         });
 
         TouchID.isSupported()
         .then(success => {
-            setIsSupported(true);
+            
         })
         .catch(error => {
             console.log("Erro TouchID: " + error)

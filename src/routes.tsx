@@ -1,45 +1,80 @@
-
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
+// screens
 import Home from './screens/Home';
 import Configuration from './screens/Configuration';
 import Login from './screens/Login';
-import { useSelector } from 'react-redux';
+import SignUp from './screens/SignUp';
+import Menu from './screens/Menu';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-const Drawer = createDrawerNavigator();
-const LoginTab = createBottomTabNavigator()
+Icon.loadFont()
 
-export function AuthenticatedNavigation() {
+const Stack = createStackNavigator()
+const Tab = createBottomTabNavigator()
+
+const NavigationTabs = () => {
 
   return (
     <>
-      <Drawer.Navigator initialRouteName='Login' screenOptions={{ swipeEnabled: false }}>
-        <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="Configuration" component={Configuration} />
-        <LoginTab.Screen name="Login" component={Login} />
-      </Drawer.Navigator>
+      <Tab.Navigator>
+        <Tab.Screen 
+          name='Configuration'
+          component={Configuration}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="gears" color={color} size={size} />
+            )
+          }}
+        />
+        <Tab.Screen 
+          name='Home'
+          component={Home}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="home" color={color} size={size} />
+            )
+          }}
+        />
+        <Tab.Screen 
+          name='Menu'
+          component={Menu}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="bars" color={color} size={size} />
+            )
+          }}  
+        />
+      </Tab.Navigator>
     </>
-  );
+  )
 }
 
-export function RootNavigation() {
-  
-  const session = useSelector((state: any) => state.session.authenticated)
+const AuthStack = () => {
+  return (
+    <Stack.Navigator initialRouteName='Login'>
+      <Stack.Screen name='Login' component={Login}/>
+      <Stack.Screen name='Sign Up' component={SignUp}/>
+    </Stack.Navigator>
+  )
+}
 
-  const chooseNavigation = () => {
-    return (
-      <>
-        <AuthenticatedNavigation/>
-      </>
-    )
-  }
+export const RootNavigation = () => {
+
+  const session = useSelector(
+    function(state: any) {
+      return state.authenticated
+    }
+  )
 
   return(
     <NavigationContainer>
-      {chooseNavigation()}
+      {session ? <NavigationTabs/> : <AuthStack/>}
     </NavigationContainer>
   )
 }

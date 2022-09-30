@@ -1,7 +1,9 @@
-import React, {type PropsWithChildren} from 'react';
-import { store } from './src/store/store';
+import React, {useEffect, type PropsWithChildren} from 'react';
+import store from './src/redux';
 import { Provider } from 'react-redux';
 import { RootNavigation } from './src/routes';
+
+const session = store.getState().authenticated
 
 const App = () => {
 
@@ -15,3 +17,4 @@ const App = () => {
 };
 
 export default App;
+
